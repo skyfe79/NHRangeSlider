@@ -10,10 +10,21 @@ import UIKit
 import NHRangeSlider
 
 class ViewController: UIViewController {
+    
+    public lazy var currencyFormatter : NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        let locale = Locale(identifier: "ko_KR")
+        formatter.locale = locale
+        formatter.currencySymbol = ""
+        return formatter
+    }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         
         // default slider
         let sliderView = NHRangeSliderView(frame: CGRect(x: 16, y: 20, width: self.view.bounds.width - 32, height: 80) )
@@ -33,6 +44,13 @@ class ViewController: UIViewController {
         sliderSquareView.thumbImage = UIImage(named: "slider_thumb")
         sliderSquareView.thumbLabelPosition = .BELOW
         sliderSquareView.trackHeight = 3
+        sliderSquareView.thumbLabelStyle = .FOLLOW
+        sliderSquareView.lowerTransformer = { [weak self] (value) -> String in
+            return (self?.currencyFormatter.string(from: NSNumber(value: value * 1000)) ?? "") + "원"
+        }
+        sliderSquareView.upperTransformer = { [weak self] (value) -> String in
+            return (self?.currencyFormatter.string(from: NSNumber(value: value * 1000)) ?? "") + "원"
+        }
         sliderSquareView.sizeToFit()
         self.view.addSubview(sliderSquareView)
         
@@ -72,12 +90,13 @@ class ViewController: UIViewController {
         sliderCustomStringView.upperValue = 70.0
         sliderCustomStringView.stepValue = 10
         sliderCustomStringView.gapBetweenThumbs = 10
-        
+        sliderCustomStringView.thumbImage = UIImage(named: "slider_thumb")
         sliderCustomStringView.thumbLabelStyle = .FOLLOW
         
         sliderCustomStringView.titleLabel?.text = "Stepped slider with custom format"
         sliderCustomStringView.lowerDisplayStringFormat = "Min: $%.0f"
         sliderCustomStringView.upperDisplayStringFormat = "Max: $%.0f"
+        sliderCustomStringView.thumbLabelPosition = .BELOW
         
         sliderCustomStringView.sizeToFit()
         self.view.addSubview(sliderCustomStringView)

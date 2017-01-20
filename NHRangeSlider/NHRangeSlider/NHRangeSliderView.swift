@@ -35,7 +35,10 @@ public extension NHRangeSliderViewDelegate{
 
 /// Range slider with labels for upper and lower thumbs, title label and configurable step value (optional)
 open class NHRangeSliderView: UIView {
-
+    
+    //Lamda for transforming of lower and upper value.
+    public typealias Transformer = (Double) -> String
+    
     //MARK: properties
     
     open var delegate: NHRangeSliderViewDelegate? = nil
@@ -51,6 +54,21 @@ open class NHRangeSliderView: UIView {
     
     /// upper value label for displaying selected upper value
     open var upperLabel : UILabel? = nil
+    
+    
+    ///
+    open var lowerTransformer : Transformer? = nil {
+        didSet {
+            updateLabelDisplay()
+        }
+    }
+    
+    ///
+    open var upperTransformer : Transformer? = nil {
+        didSet {
+            updateLabelDisplay()
+        }
+    }
     
     /// display format for lower value. Default to %.0f to display value as Int
     open var lowerDisplayStringFormat: String = "%.0f" {
@@ -269,8 +287,19 @@ open class NHRangeSliderView: UIView {
     // update labels display
     open func updateLabelDisplay() {
         
-        self.lowerLabel?.text = String(format: self.lowerDisplayStringFormat, rangeSlider!.lowerValue )
-        self.upperLabel?.text = String(format: self.upperDisplayStringFormat, rangeSlider!.upperValue )
+        
+        if let t = lowerTransformer {
+            self.lowerLabel?.text = t( rangeSlider!.lowerValue )
+        } else{
+            self.lowerLabel?.text = String(format: self.lowerDisplayStringFormat, rangeSlider!.lowerValue )
+        }
+        
+        if let t = upperTransformer {
+            self.upperLabel?.text = t( rangeSlider!.upperValue )
+        } else {
+            self.upperLabel?.text = String(format: self.upperDisplayStringFormat, rangeSlider!.upperValue )
+        }
+        
         
         if self.lowerLabel != nil {
             
