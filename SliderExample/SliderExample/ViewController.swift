@@ -24,9 +24,10 @@ class ViewController: UIViewController {
                                                                width: sliderView.frame.size.width,
                                                                height: sliderView.frame.size.height) )
         sliderSquareView.curvaceousness = 0.0
-        sliderSquareView.trackHighlightTintColor = UIColor.red
+        //sliderSquareView.trackHighlightTintColor = UIColor.red
         sliderSquareView.lowerValue = 20.0
         sliderSquareView.upperValue = 80.0
+        sliderSquareView.thumbImage = UIImage(named: "slider_thumb")
         sliderSquareView.sizeToFit()
         self.view.addSubview(sliderSquareView)
         
@@ -35,7 +36,7 @@ class ViewController: UIViewController {
                                                                         width: sliderView.frame.size.width,
                                                                         height: sliderView.frame.size.height) )
         sliderSquareWithLabelView.curvaceousness = 0.0
-        sliderSquareWithLabelView.trackHighlightTintColor = UIColor.brown
+        //sliderSquareWithLabelView.trackHighlightTintColor = UIColor.brown
         sliderSquareWithLabelView.lowerValue = 20.0
         sliderSquareWithLabelView.upperValue = 80.0
         sliderSquareWithLabelView.stepValue = 5.0
@@ -47,7 +48,7 @@ class ViewController: UIViewController {
         let sliderWithLabelFollowView = NHRangeSliderView(frame: CGRect(x: 16, y: sliderSquareWithLabelView.frame.maxY + 8,
                                                                         width: sliderView.frame.size.width,
                                                                         height: sliderView.frame.size.height) )
-        sliderWithLabelFollowView.trackHighlightTintColor = UIColor.black
+        //sliderWithLabelFollowView.trackHighlightTintColor = UIColor.black
         sliderWithLabelFollowView.lowerValue = 30.0
         sliderWithLabelFollowView.upperValue = 70.0
         sliderWithLabelFollowView.gapBetweenThumbs = 5
@@ -61,7 +62,7 @@ class ViewController: UIViewController {
         let sliderCustomStringView = NHRangeSliderView(frame: CGRect(x: 16, y: sliderWithLabelFollowView.frame.maxY + 8,
                                                                         width: sliderView.frame.size.width,
                                                                         height: sliderView.frame.size.height) )
-        sliderCustomStringView.trackHighlightTintColor = UIColor.black
+        //sliderCustomStringView.trackHighlightTintColor = UIColor.black
         sliderCustomStringView.lowerValue = 30.0
         sliderCustomStringView.upperValue = 70.0
         sliderCustomStringView.stepValue = 10

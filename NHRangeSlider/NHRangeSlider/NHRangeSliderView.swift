@@ -104,6 +104,12 @@ open class NHRangeSliderView: UIView {
         }
     }
     
+    @IBInspectable open var thumbImage : UIImage? = nil {
+        didSet {
+            self.rangeSlider?.thumbImage = thumbImage
+        }
+    }
+    
     /// minimum distance between the upper and lower thumbs.
     open var gapBetweenThumbs: Double = 2.0 {
         didSet {
@@ -111,20 +117,38 @@ open class NHRangeSliderView: UIView {
         }
     }
     
-    /// tint color for track between 2 thumbs
-    @IBInspectable open var trackTintColor: UIColor = UIColor(white: 0.9, alpha: 1.0) {
-        didSet {
-            self.rangeSlider?.trackTintColor = trackTintColor
-        }
-    }
-    
-    
     /// track highlight tint color
-    @IBInspectable open var trackHighlightTintColor: UIColor = UIColor(red: 0.0, green: 0.45, blue: 0.94, alpha: 1.0) {
+    /// 두 개의 thumb사이의 색상이다.
+    /// 그래디언트 시작 색상
+    @IBInspectable open var trackHighlightStartColor: UIColor = UIColor.red {
         didSet {
-            self.rangeSlider?.trackHighlightTintColor = trackHighlightTintColor
+            self.rangeSlider?.trackHighlightStartColor = trackHighlightStartColor
         }
     }
+    
+    @IBInspectable open var trackHighlightEndColor: UIColor = UIColor.blue {
+        didSet {
+            self.rangeSlider?.trackHighlightEndColor = trackHighlightEndColor
+        }
+    }
+    
+    /// 트랙색상을 그래디언트로 그릴 수 있게 한다.
+    /// 그래디언트 시작 색상
+    @IBInspectable open var trackStartColor: UIColor = UIColor.gray {
+        didSet {
+            self.rangeSlider?.trackStartColor = trackStartColor
+        }
+    }
+    
+    
+    /// 트랙색상을 그래디언트로 그릴 수 있게 한다.
+    /// 그래디언트 끝 색상
+    @IBInspectable open var trackEndColor: UIColor = UIColor.gray {
+        didSet {
+            self.rangeSlider?.trackEndColor = trackEndColor
+        }
+    }
+
     
     
     /// thumb tint color
@@ -271,7 +295,7 @@ open class NHRangeSliderView: UIView {
             }
             
             rangeSlider.frame = CGRect(x: 0,
-                                       y: titleLabelMaxY + lowerLabel.font.lineHeight + self.spacing,
+                                       y: titleLabelMaxY /* + lowerLabel.font.lineHeight + self.spacing */, // 레이블을 아래로 내린다.
                                        width: commonWidth ,
                                        height: thumbSize )
 
@@ -293,14 +317,14 @@ open class NHRangeSliderView: UIView {
             }
             
             lowerLabel.frame = CGRect(      x: lowerLabelX,
-                                            y: titleLabelMaxY,
+                                            y: titleLabelMaxY + rangeSlider.frame.size.height + self.spacing,
                                             width: lowerWidth ,
-                                            height: lowerLabel.font.lineHeight + self.spacing )
+                                            height: lowerLabel.font.lineHeight /* + self.spacing */ )
             
             upperLabel.frame = CGRect(      x: upperLabelX,
-                                            y: titleLabelMaxY,
+                                            y: titleLabelMaxY + rangeSlider.frame.size.height + self.spacing,
                                             width: upperWidth ,
-                                            height: upperLabel.font.lineHeight + self.spacing )
+                                            height: upperLabel.font.lineHeight /* + self.spacing */ )
             
         }
         

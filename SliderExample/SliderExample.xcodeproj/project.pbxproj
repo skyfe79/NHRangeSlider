@@ -197,7 +197,7 @@
 				TargetAttributes = {
 					BDBEB3AB1E0660E200FE2D6F = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = NKN6QECX9M;
+						DevelopmentTeam = 93Q232N9L9;
 						ProvisioningStyle = Automatic;
 					};
 					BDBEB3BF1E0660E200FE2D6F = {
@@ -419,8 +419,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NKN6QECX9M;
+				DEVELOPMENT_TEAM = 93Q232N9L9;
 				INFOPLIST_FILE = SliderExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ngohung.SliderExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -433,8 +434,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NKN6QECX9M;
+				DEVELOPMENT_TEAM = 93Q232N9L9;
 				INFOPLIST_FILE = SliderExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ngohung.SliderExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";

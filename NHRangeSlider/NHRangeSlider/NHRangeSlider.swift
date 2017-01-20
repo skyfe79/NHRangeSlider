@@ -29,16 +29,31 @@ public class RangeSliderTrackLayer: CALayer {
         ctx.addPath(path.cgPath)
         
         // Fill the track
-        ctx.setFillColor(slider.trackTintColor.cgColor)
         ctx.addPath(path.cgPath)
-        ctx.fillPath()
+        drawLinearGradient(in: ctx, rect: bounds, startColor: slider.trackStartColor.cgColor, endColor: slider.trackEndColor.cgColor)
         
         // Fill the highlighted range
-        ctx.setFillColor(slider.trackHighlightTintColor.cgColor)
         let lowerValuePosition = CGFloat(slider.positionForValue(slider.lowerValue))
         let upperValuePosition = CGFloat(slider.positionForValue(slider.upperValue))
         let rect = CGRect(x: lowerValuePosition, y: 0.0, width: upperValuePosition - lowerValuePosition, height: bounds.height)
-        ctx.fill(rect)
+        drawLinearGradient(in: ctx, rect: rect, startColor: slider.trackHighlightStartColor.cgColor, endColor: slider.trackHighlightEndColor.cgColor)
+    }
+    
+    fileprivate func drawLinearGradient(in ctx: CGContext, rect: CGRect, startColor: CGColor, endColor: CGColor) {
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let locations : [CGFloat] = [ 0.0, 1.0 ]
+        let colors : [CGColor] = [ startColor, endColor ]
+        
+        guard let gradient = CGGradient.init(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations) else { return }
+        
+        let startPoint = CGPoint(x: rect.minX, y: rect.midY)
+        let endPoint = CGPoint(x: rect.maxX, y: rect.midY)
+        
+        ctx.saveGState()
+        ctx.clip()
+        ctx.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+        ctx.restoreGState()
+
     }
 }
 
@@ -69,6 +84,11 @@ public class RangeSliderThumbLayer: CALayer {
         }
     }
     
+    public var image : UIImage? = nil {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     /// draw the thumb
     ///
@@ -78,25 +98,33 @@ public class RangeSliderThumbLayer: CALayer {
             return
         }
         
-        let thumbFrame = bounds.insetBy(dx: 2.0, dy: 2.0)
-        let cornerRadius = thumbFrame.height * slider.curvaceousness / 2.0
-        let thumbPath = UIBezierPath(roundedRect: thumbFrame, cornerRadius: cornerRadius)
         
-        // Fill
-        ctx.setFillColor(slider.thumbTintColor.cgColor)
-        ctx.addPath(thumbPath.cgPath)
-        ctx.fillPath()
-        
-        // Outline
-        ctx.setStrokeColor(strokeColor.cgColor)
-        ctx.setLineWidth(lineWidth)
-        ctx.addPath(thumbPath.cgPath)
-        ctx.strokePath()
-        
-        if highlighted {
-            ctx.setFillColor(UIColor(white: 0.0, alpha: 0.1).cgColor)
+        if let image = image?.cgImage {
+            
+            ctx.draw(image, in: bounds)
+            
+        } else {
+            let thumbFrame = bounds.insetBy(dx: 2.0, dy: 2.0)
+            let cornerRadius = thumbFrame.height * slider.curvaceousness / 2.0
+            let thumbPath = UIBezierPath(roundedRect: thumbFrame, cornerRadius: cornerRadius)
+            
+            
+            // Fill
+            ctx.setFillColor(slider.thumbTintColor.cgColor)
             ctx.addPath(thumbPath.cgPath)
             ctx.fillPath()
+            
+            // Outline
+            ctx.setStrokeColor(strokeColor.cgColor)
+            ctx.setLineWidth(lineWidth)
+            ctx.addPath(thumbPath.cgPath)
+            ctx.strokePath()
+            
+            if highlighted {
+                ctx.setFillColor(UIColor(white: 0.0, alpha: 0.1).cgColor)
+                ctx.addPath(thumbPath.cgPath)
+                ctx.fillPath()
+            }
         }
     }
 }
@@ -172,17 +200,32 @@ open class NHRangeSlider: UIControl {
     /// minimum distance between the upper and lower thumbs.
     @IBInspectable open var gapBetweenThumbs: Double = 2.0
     
-    /// tint color for track between 2 thumbs
-    @IBInspectable open var trackTintColor: UIColor = UIColor(white: 0.9, alpha: 1.0) {
+    /// track highlight tint color
+    @IBInspectable open var trackHighlightStartColor: UIColor = UIColor.red {
         didSet {
             trackLayer.setNeedsDisplay()
         }
     }
     
-    /// track highlight tint color
-    @IBInspectable open var trackHighlightTintColor: UIColor = UIColor(red: 0.0, green: 0.45, blue: 0.94, alpha: 1.0) {
+    @IBInspectable open var trackHighlightEndColor: UIColor = UIColor.blue {
         didSet {
             trackLayer.setNeedsDisplay()
+        }
+    }
+    
+    /// 트랙색상을 그래디언트로 그릴 수 있게 한다.
+    /// 그래디언트 시작 색상
+    @IBInspectable open var trackStartColor: UIColor = UIColor.gray {
+        didSet {
+            trackLayer.setNeedsLayout()
+        }
+    }
+    
+    /// 트랙색상을 그래디언트로 그릴 수 있게 한다.
+    /// 그래디언트 끝 색상
+    @IBInspectable open var trackEndColor: UIColor = UIColor.gray {
+        didSet {
+            trackLayer.setNeedsLayout()
         }
     }
     
@@ -229,6 +272,12 @@ open class NHRangeSlider: UIControl {
         }
     }
     
+    @IBInspectable open var thumbImage : UIImage? = nil {
+        didSet {
+            lowerThumbLayer.image = thumbImage
+            upperThumbLayer.image = thumbImage
+        }
+    }
     
     /// previous touch location
     fileprivate var previouslocation = CGPoint()

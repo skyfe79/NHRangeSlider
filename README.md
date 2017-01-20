@@ -2,9 +2,18 @@
 ![Swift](http://img.shields.io/badge/swift-3.0-brightgreen.svg)&nbsp;[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)&nbsp;[![CocoaPods](https://img.shields.io/cocoapods/v/NHRangeSlider.svg)](https://github.com/thehung111/NHRangeSlider)
 
 
-A custom range slider in Swift. Well-documented with examples. Forked from [RangeSlider](https://github.com/warchimede/RangeSlider) with some enhancements.
+A custom range slider in Swift. Well-documented with examples. Forked from [RangeSlider](https://github.com/warchimede/RangeSlider) with some enhancements. 
+
+## Add some more customizable appearances:
+
+ * Support Image for Thumbs.
+ * Support Gradient for track bar.
+ * Support Gradient in track highlight range.
+
+<img src="screenshot2.png" />
 
 <img src="screenshot.png" />
+
 
 ## Requirements
 
