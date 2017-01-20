@@ -22,9 +22,13 @@ public class RangeSliderTrackLayer: CALayer {
         guard let slider = rangeSlider else {
             return
         }
+
         
         // Clip
-        let cornerRadius = bounds.height * slider.curvaceousness / 2.0
+        let cr = bounds.height * slider.curvaceousness / 2.0
+        self.cornerRadius = cr
+        self.masksToBounds = true
+        
         let path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)
         ctx.addPath(path.cgPath)
         
@@ -37,6 +41,8 @@ public class RangeSliderTrackLayer: CALayer {
         let upperValuePosition = CGFloat(slider.positionForValue(slider.upperValue))
         let rect = CGRect(x: lowerValuePosition, y: 0.0, width: upperValuePosition - lowerValuePosition, height: bounds.height)
         drawLinearGradient(in: ctx, rect: rect, startColor: slider.trackHighlightStartColor.cgColor, endColor: slider.trackHighlightEndColor.cgColor)
+        
+        
     }
     
     fileprivate func drawLinearGradient(in ctx: CGContext, rect: CGRect, startColor: CGColor, endColor: CGColor) {
@@ -50,7 +56,6 @@ public class RangeSliderTrackLayer: CALayer {
         let endPoint = CGPoint(x: rect.maxX, y: rect.midY)
         
         ctx.saveGState()
-        ctx.clip()
         ctx.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
         ctx.restoreGState()
 
@@ -279,6 +284,12 @@ open class NHRangeSlider: UIControl {
         }
     }
     
+    @IBInspectable open var trackHeight : CGFloat = 10 {
+        didSet {
+            trackLayer.setNeedsLayout()
+        }
+    }
+    
     /// previous touch location
     fileprivate var previouslocation = CGPoint()
     
@@ -346,7 +357,8 @@ open class NHRangeSlider: UIControl {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
-        trackLayer.frame = bounds.insetBy(dx: 0.0, dy: bounds.height/3)
+        //trackLayer.frame = bounds.insetBy(dx: 0.0, dy: bounds.height/3)
+        trackLayer.frame = CGRect(x: bounds.origin.x, y: bounds.midY - (trackHeight/2), width: bounds.size.width, height: trackHeight)
         trackLayer.setNeedsDisplay()
         
         let lowerThumbCenter = CGFloat(positionForValue(lowerValue))

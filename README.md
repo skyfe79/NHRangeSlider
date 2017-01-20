@@ -10,6 +10,7 @@ A custom range slider in Swift. Well-documented with examples. Forked from [Rang
  * Support Gradient for track bar.
  * Support Gradient in track highlight range.
  * Support Thumb Label Position { ABOVE or BELOW }
+ * Support Track Height
 
 <img src="screenshot2.png" />
 

@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         sliderSquareView.upperValue = 80.0
         sliderSquareView.thumbImage = UIImage(named: "slider_thumb")
         sliderSquareView.thumbLabelPosition = .BELOW
+        sliderSquareView.trackHeight = 3
         sliderSquareView.sizeToFit()
         self.view.addSubview(sliderSquareView)
         

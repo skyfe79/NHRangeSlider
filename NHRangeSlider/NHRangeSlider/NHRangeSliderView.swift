@@ -157,7 +157,11 @@ open class NHRangeSliderView: UIView {
         }
     }
 
-    
+    @IBInspectable open var trackHeight: CGFloat = 10.0 {
+        didSet {
+            self.rangeSlider?.trackHeight = trackHeight
+        }
+    }
     
     /// thumb tint color
     @IBInspectable open var thumbTintColor: UIColor = UIColor.white {
