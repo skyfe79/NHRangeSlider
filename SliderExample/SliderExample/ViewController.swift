@@ -24,10 +24,14 @@ class ViewController: UIViewController {
                                                                width: sliderView.frame.size.width,
                                                                height: sliderView.frame.size.height) )
         sliderSquareView.curvaceousness = 0.0
-        //sliderSquareView.trackHighlightTintColor = UIColor.red
+        sliderSquareView.trackHighlightStartColor = UIColor.red
+        sliderSquareView.trackHighlightEndColor = UIColor.blue
+        sliderSquareView.trackStartColor = UIColor.white
+        sliderSquareView.trackEndColor = UIColor.black
         sliderSquareView.lowerValue = 20.0
         sliderSquareView.upperValue = 80.0
         sliderSquareView.thumbImage = UIImage(named: "slider_thumb")
+        sliderSquareView.thumbLabelPosition = .BELOW
         sliderSquareView.sizeToFit()
         self.view.addSubview(sliderSquareView)
         

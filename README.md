@@ -9,6 +9,7 @@ A custom range slider in Swift. Well-documented with examples. Forked from [Rang
  * Support Image for Thumbs.
  * Support Gradient for track bar.
  * Support Gradient in track highlight range.
+ * Support Thumb Label Position { ABOVE or BELOW }
 
 <img src="screenshot2.png" />
 

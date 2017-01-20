@@ -9,6 +9,11 @@
 import UIKit
 
 /// enum for label positions
+public enum NHSliderLabelPosition : Int {
+    case ABOVE
+    case BELOW
+}
+
 public enum NHSliderLabelStyle : Int {
     /// lower and upper labels stick to the left and right of slider
     case STICKY
@@ -63,6 +68,9 @@ open class NHRangeSliderView: UIView {
     
     /// vertical spacing
     open var spacing: CGFloat = 4.0
+    
+    /// 
+    open var thumbLabelPosition: NHSliderLabelPosition = .ABOVE
     
     /// position of thumb labels. Set to STICKY to stick to left and right positions. Set to FOLLOW to follow left and right thumbs
     open var thumbLabelStyle: NHSliderLabelStyle = .STICKY
@@ -294,10 +302,17 @@ open class NHRangeSliderView: UIView {
                 titleLabelMaxY = titleLabel.frame.origin.y + titleLabel.frame.size.height
             }
             
-            rangeSlider.frame = CGRect(x: 0,
-                                       y: titleLabelMaxY /* + lowerLabel.font.lineHeight + self.spacing */, // 레이블을 아래로 내린다.
-                                       width: commonWidth ,
-                                       height: thumbSize )
+            if self.thumbLabelPosition == .ABOVE {
+                rangeSlider.frame = CGRect(x: 0,
+                                           y: titleLabelMaxY + lowerLabel.font.lineHeight + self.spacing,
+                                           width: commonWidth ,
+                                           height: thumbSize )
+            } else {
+                rangeSlider.frame = CGRect(x: 0,
+                                           y: titleLabelMaxY /* + lowerLabel.font.lineHeight + self.spacing */, // 레이블을 아래로 내린다.
+                    width: commonWidth ,
+                    height: thumbSize )
+            }
 
             let lowerWidth = self.estimatelabelSize(font: lowerLabel.font, string: lowerLabel.text!, constrainedToWidth: Double(commonWidth)).width
             let upperWidth = self.estimatelabelSize(font: upperLabel.font, string: upperLabel.text!, constrainedToWidth: Double(commonWidth)).width
@@ -316,15 +331,29 @@ open class NHRangeSliderView: UIView {
                 upperLabelX = rangeSlider.frame.origin.x + rangeSlider.frame.size.width - thumbSize + self.spacing
             }
             
-            lowerLabel.frame = CGRect(      x: lowerLabelX,
-                                            y: titleLabelMaxY + rangeSlider.frame.size.height + self.spacing,
-                                            width: lowerWidth ,
-                                            height: lowerLabel.font.lineHeight /* + self.spacing */ )
             
-            upperLabel.frame = CGRect(      x: upperLabelX,
-                                            y: titleLabelMaxY + rangeSlider.frame.size.height + self.spacing,
-                                            width: upperWidth ,
-                                            height: upperLabel.font.lineHeight /* + self.spacing */ )
+            if self.thumbLabelPosition == .ABOVE {
+                lowerLabel.frame = CGRect(      x: lowerLabelX,
+                                                y: titleLabelMaxY,
+                                                width: lowerWidth ,
+                                                height: lowerLabel.font.lineHeight + self.spacing )
+                
+                upperLabel.frame = CGRect(      x: upperLabelX,
+                                                y: titleLabelMaxY,
+                                                width: upperWidth ,
+                                                height: upperLabel.font.lineHeight + self.spacing )
+                
+            } else {
+                lowerLabel.frame = CGRect(      x: lowerLabelX,
+                                                y: titleLabelMaxY + rangeSlider.frame.size.height + self.spacing,
+                                                width: lowerWidth ,
+                                                height: lowerLabel.font.lineHeight )
+                
+                upperLabel.frame = CGRect(      x: upperLabelX,
+                                                y: titleLabelMaxY + rangeSlider.frame.size.height + self.spacing,
+                                                width: upperWidth ,
+                                                height: upperLabel.font.lineHeight )
+            }
             
         }
         
